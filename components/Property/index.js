@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { EvilIcons } from '@expo/vector-icons'
-import { white } from '../utils/colors'
+import { white } from '../../utils/colors'
 
 export default class Property extends React.Component {
   formatAddress = (address) => {
@@ -15,6 +15,13 @@ export default class Property extends React.Component {
 
   mainImage = (images) => {
     return images && images.filter((images) => images.attributes.image_type === 'main')[0]
+  }
+
+  roommateImage = (room, images) => {
+    if (room.relationships.user.data === null) {
+      return <Image key={room.id} style={styles.avatar} source={require('../../assets/empty-user.png')}/>
+    } else {
+    }
   }
 
   render() {
@@ -32,6 +39,9 @@ export default class Property extends React.Component {
             <EvilIcons name='location' size={20} />
             {neighborhood.attributes.name}
           </Text>
+          <View style={styles.roommates}>
+            {rooms.map((room) => (this.roommateImage(room, images)))}
+          </View>
         </View>
       </View>
     )
@@ -58,5 +68,13 @@ const styles = StyleSheet.create({
   img: {
     height: 250,
     flex: 1,
+  },
+  roommates: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  avatar: {
+    height: 50,
+    width: 50,
   }
 })

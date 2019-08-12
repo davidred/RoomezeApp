@@ -1,9 +1,11 @@
 import React from 'react'
-import { ScrollView, View, Text, StyleSheet, FlatList } from 'react-native'
-import { fetchProperties } from '../utils/api'
-import { getIncluded, propertySelector } from '../utils/selectors'
+import { connect } from 'react-redux'
+import { ScrollView, View, Text, StyleSheet } from 'react-native'
+import { receiveProperties } from './reducer'
+import { indexProperties } from '../../utils/api'
+import { getIncluded, propertySelector } from '../../utils/selectors'
 import { AppLoading } from 'expo'
-import Property from './Property'
+import Property from '../Property'
 
 export default class Properties extends React.Component {
   state = {
@@ -19,7 +21,7 @@ export default class Properties extends React.Component {
   }
 
   componentDidMount() {
-    fetchProperties()
+    indexProperties()
       .then(({ data, included }) => {
         const includedEntities = getIncluded(included)
 
