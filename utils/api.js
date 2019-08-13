@@ -7,3 +7,11 @@ export function indexProperties() {
       debugger;
     })
 }
+
+export function fetchAll(endpoint) {
+  return fetch(endpoint)
+    .then(res => res.json())
+    .catch(err => {
+      debugger
+    })
+}

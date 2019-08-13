@@ -1,11 +1,14 @@
 const RECEIVE_PROPERTIES = 'RECEIVE_PROPERTIES'
-import { indexProperties } from '../../utils/api'
+import { indexProperties } from '../utils/api'
+import { normalizeData } from '../utils/selectors'
 
 export const fetchProperties = () => dispatch => {
-  return indexProperties().then(data => dispatch(receiveProperties(data)))
+  return indexProperties().then(({ data, included, meta }) => {
+    dispatch(receiveProperties(normalizeData(data)))
+  })
 }
 
-function receiveProperties (properties) {
+export function receiveProperties (properties) {
   return {
     type: RECEIVE_PROPERTIES,
     properties,
